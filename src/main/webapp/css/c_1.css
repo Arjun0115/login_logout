@@ -1,0 +1,443 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink: #0d0d0d;
+  --paper: #f5f0e8;
+  --cream: #ede7d5;
+  --rust: #c84b2f;
+  --rust-dark: #9e3820;
+  --muted: #7a7060;
+  --border: #ccc4b0;
+  --line: #b8b0a0;
+}
+
+html, body {
+  height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Mono', monospace;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+/* ── Left panel ── */
+.panel-left {
+  width: 42%;
+  background: var(--ink);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.panel-left::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 48px,
+      rgba(255,255,255,0.04) 48px,
+      rgba(255,255,255,0.04) 49px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 48px,
+      rgba(255,255,255,0.04) 48px,
+      rgba(255,255,255,0.04) 49px
+    );
+  pointer-events: none;
+}
+
+.brand {
+  position: relative;
+  z-index: 2;
+}
+
+.brand-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.brand-mark span {
+  color: var(--rust);
+}
+
+.brand-sub {
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-top: 0.4rem;
+}
+
+.left-body {
+  position: relative;
+  z-index: 2;
+}
+
+.left-headline {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.4rem, 4vw, 3.6rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.left-headline em {
+  color: var(--rust);
+  font-style: italic;
+}
+
+.left-desc {
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.8;
+  max-width: 26ch;
+  letter-spacing: 0.02em;
+}
+
+.dot-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+}
+
+.dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.2);
+  transition: background 0.3s;
+}
+
+.dot.active { background: var(--rust); }
+
+.left-footer {
+  position: relative;
+  z-index: 2;
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── Right panel ── */
+.panel-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  overflow-y: auto;
+  position: relative;
+}
+
+.panel-right::before {
+  content: '';
+  position: absolute;
+  top: -120px; right: -120px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(200,75,47,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Card ── */
+.card {
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+}
+
+/* ── Tabs ── */
+.tabs {
+  display: flex;
+  border-bottom: 1.5px solid var(--border);
+  margin-bottom: 2.5rem;
+  gap: 0;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.8rem 1.6rem 0.8rem 0;
+  position: relative;
+  transition: color 0.25s;
+}
+
+.tab-btn::after {
+  content: '';
+  position: absolute;
+  bottom: -1.5px; left: 0;
+  width: 0; height: 2px;
+  background: var(--rust);
+  transition: width 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+.tab-btn.active { color: var(--ink); }
+.tab-btn.active::after { width: 100%; }
+
+/* ── Forms ── */
+.form-panel {
+  display: none;
+  animation: fadeUp 0.35s ease forwards;
+}
+.form-panel.active { display: block; }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  line-height: 1.1;
+  margin-bottom: 0.5rem;
+}
+
+.form-sub {
+  font-size: 0.68rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  margin-bottom: 2rem;
+}
+
+.field {
+  margin-bottom: 1.4rem;
+  position: relative;
+}
+
+.field label {
+  display: block;
+  font-size: 0.6rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.5rem;
+}
+
+.field input {
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid var(--border);
+  padding: 0.6rem 0;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.9rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.25s;
+  letter-spacing: 0.04em;
+}
+
+.field input::placeholder { color: var(--line); }
+.field input:focus { border-color: var(--rust); }
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.extras {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0.5rem 0 2rem;
+}
+
+.check-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+}
+
+.check-label input[type="checkbox"] {
+  appearance: none;
+  width: 14px; height: 14px;
+  border: 1.5px solid var(--border);
+  border-radius: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.check-label input[type="checkbox"]:checked {
+  background: var(--rust);
+  border-color: var(--rust);
+}
+
+.check-label input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  color: #fff;
+  line-height: 1;
+  top: 1px; left: 2px;
+}
+
+.forgot {
+  font-size: 0.62rem;
+  color: var(--muted);
+  text-decoration: none;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.forgot:hover { color: var(--rust); border-color: var(--rust); }
+
+/* ── Button ── */
+.btn-primary {
+  width: 100%;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  padding: 1rem 2rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.25s;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--rust);
+  transform: translateX(-100%);
+  transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+}
+
+.btn-primary:hover::before { transform: translateX(0); }
+.btn-primary span { position: relative; z-index: 1; }
+
+/* ── Divider ── */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1.6rem 0;
+}
+.divider-line {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.divider span {
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+/* ── Social ── */
+.socials {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.btn-social {
+  background: none;
+  border: 1.5px solid var(--border);
+  padding: 0.7rem 1rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: border-color 0.2s, color 0.2s;
+}
+.btn-social:hover { border-color: var(--ink); color: var(--ink); }
+
+.terms {
+  font-size: 0.58rem;
+  color: var(--line);
+  letter-spacing: 0.06em;
+  line-height: 1.7;
+  margin-top: 1.5rem;
+}
+.terms a { color: var(--rust); text-decoration: none; }
+
+/* ── Responsive ── */
+@media (max-width: 720px) {
+  body { flex-direction: column; overflow: auto; }
+  .panel-left {
+    width: 100%;
+    padding: 2rem;
+    min-height: 220px;
+  }
+  .left-headline { font-size: 2rem; }
+  .left-desc, .dot-row, .left-footer { display: none; }
+  .panel-right { padding: 2rem 1.5rem; }
+}
+
+/* ── Back button ── */
+.back-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  text-transform: uppercase;
+  padding: 0;
+  margin-bottom: 1.8rem;
+  display: inline-block;
+  transition: color 0.2s;
+}
+.back-btn:hover { color: var(--rust); }
+
+/* ── Success message ── */
+.success-msg {
+  display: none;
+  margin-top: 1.2rem;
+  padding: 0.8rem 1rem;
+  border: 1.5px solid #3a7d44;
+  background: rgba(58,125,68,0.06);
+  color: #3a7d44;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  border-radius: 2px;
+}
